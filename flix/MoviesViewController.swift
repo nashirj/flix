@@ -7,13 +7,18 @@
 //
 
 import UIKit
+import AlamofireImage
 
-class MoviesViewController: UIViewController {
+class MoviesViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
     
+    @IBOutlet weak var tableView: UITableView!
     var movies = [[String:Any]]() // array of dictionaries
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        tableView.dataSource = self
+        tableView.delegate = self
         
         print("hello")
 
@@ -28,9 +33,11 @@ class MoviesViewController: UIViewController {
             } else if let data = data {
                 let dataDictionary = try! JSONSerialization.jsonObject(with: data, options: []) as! [String: Any]
             
-                print(dataDictionary)
+//                print(dataDictionary)
                 
                 self.movies = dataDictionary["results"] as! [[String:Any]]
+                
+                self.tableView.reloadData() // tableView doesn't populate until elements are downloaded
                 print(self.movies)
 
                 // TODO: Get the array of movies
@@ -40,6 +47,29 @@ class MoviesViewController: UIViewController {
             }
         }
         task.resume()
+    }
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return movies.count
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "MovieCell") as! MovieCell
+        
+        let movie = movies[indexPath.row]
+        let title = movie["title"]
+        let synopsis = movie["overview"]
+        
+        cell.titleLabel!.text = title as! String
+        cell.synopsisLabel!.text = synopsis as! String
+        
+        let baseUrl = "https://image.tmdb.org/t/p/w185"
+        let posterPath = movie["poster_path"] as! String
+        let posterUrl = URL(string: baseUrl + posterPath)!
+        
+        cell.posterView.af_setImage(withURL: posterUrl)
+        
+        return cell
     }
     
 
