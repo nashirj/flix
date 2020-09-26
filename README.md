@@ -20,7 +20,7 @@ Flix is an app that allows users to browse movies from the [The Movie Database A
 - [x] (1pt) Run your app on a real device.
 
 ### App Walkthrough GIF
-<img src="https://imgur.com/pp18CvJ" width=250><br>
+![](flix-v1.gif)
 
 ### Notes
 I accidentally renamed the main view controller to MovieCell and was struggling to figure out why I was getting an NSException for a while, but the tip to scroll to the top of the error message was really helpful in debugging what was going on.
