@@ -17,7 +17,6 @@ class MovieDetailsViewController: UIViewController {
     @IBOutlet weak var synopsisLabel: UILabel!
     
     var movie: [String:Any]!
-
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -41,6 +40,13 @@ class MovieDetailsViewController: UIViewController {
         backdropView.af_setImage(withURL: backdropUrl)
         
     }
+    
+    
+    @IBAction func imageClicked(_ sender: UITapGestureRecognizer) {
+        performSegue(withIdentifier: "segueToTrailer", sender: sender);
+    }
+    
+    
     
 
     /*

@@ -45,16 +45,8 @@ class MovieGridViewController: UIViewController, UICollectionViewDelegate, UICol
             
                 self.movies = dataDictionary["results"] as! [[String:Any]]
                 
-//                for movie in self.movies {
-//                    print(movie["title"] as? String)
-//                }
-                
                 self.collectionView.reloadData()
-//                print(self.movies)
-
-                // TODO: Get the array of movies
-                // TODO: Store the movies in a property to use elsewhere
-                // TODO: Reload your table view data
+                print(self.movies)
 
             }
         }
@@ -93,5 +85,22 @@ class MovieGridViewController: UIViewController, UICollectionViewDelegate, UICol
         // Pass the selected object to the new view controller.
     }
     */
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+    //         Pass the selected object to the new view controller.
+            print("Loading up the details screen")
+            // find selected movie
+            let cell = sender as! UICollectionViewCell// sender is the cell that was tapped on
+            let indexPath = collectionView.indexPath(for: cell)!
+            let movie = movies[indexPath.item]
+
+            // Get the new view controller using segue.destination.
+            // Pass the selected movie to the MovieDetailsViewController
+            let detailsViewController = segue.destination as! MovieDetailsViewController
+            detailsViewController.movie = movie
+            
+            // deselect the row for aesthetic
+//            tableView.deselectRow(at: indexPath, animated: true)
+        }
 
 }
